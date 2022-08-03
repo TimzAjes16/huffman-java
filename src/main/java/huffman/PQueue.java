@@ -47,20 +47,33 @@ public class PQueue {
             } else{
                 for(int i=0; i < sizeofQueue; i++){
                     char LabelOfItem = ((Leaf) queue.get(i)).getLabel(); // casting from 'Node' data type to 'Leaf'
-                    
+                    int FreqOfItem = queue.get(i).getFreq();
                     System.out.println(n); 
-                    if ((((Leaf) n).getLabel()) >= LabelOfItem && addedToArray == false){
-                        Node removedItem = (Leaf) queue.remove(i);
-                        queue.add(0,n); // adding item to beginning of list.
-                        queue.add(i+1, removedItem); // added +1 to swap the index posiitons of previously removed list item.
-                        addedToArray = true;
-                    } else if ((((Leaf) n).getLabel()) >= LabelOfItem && addedToArray == true && i >= 1){
-                        // Node removedItem = (Leaf) queue.remove(i);
-                        // queue.add(i,removedItem);
-                        continue;
-                    } else if ((((Leaf) n).getLabel()) >= LabelOfItem && addedToArray == true){
-                        continue;
+
+                    // queue.get(i).getFreq(); /* alpha testing variable values */
+
+                    if (addedToArray == false){
+                        if (((Leaf) n).getFreq() >= FreqOfItem){
+                            queue.add(n);
+                            addedToArray = true;
+                        } else if (((Leaf) n).getFreq() < FreqOfItem){
+                            Node deletedNode = queue.remove(i);
+                            queue.add(i,n);
+                            queue.add(i+1,deletedNode);
+                            addedToArray = true;
+                        }
+                    } else if (addedToArray == true){
+                        if (((Leaf) queue.get(i)).getFreq() >= ((Leaf) queue.get(i+1)).getFreq()){
+                            Node deletedNode = queue.remove(i);
+                            queue.add(i+1,deletedNode);
+                        } else {
+                            continue;
+                        }
                     }
+
+
+
+                    
 
                 }
             }
@@ -68,8 +81,8 @@ public class PQueue {
             
         }
 
-        System.out.println(String.format("%s", queue, "\n")); // form of variable testing so I can see the logic on-screen
-        System.out.println(queue.get(0).getClass().getName());
+        // System.out.println(String.format("%s", queue, "\n")); /* alpha testing variable values */
+        // System.out.println(queue.get(0).getClass().getName()); /* alpha testing variable values for Class Data Type */
 
 
     }
