@@ -16,7 +16,31 @@ public class Huffman {
      * @return          The frequency table.
      */
     public static Map<Character, Integer> freqTable (String input) {
-        throw new UnsupportedOperationException("Method not implemented");
+        // throw new UnsupportedOperationException("Method not implemented");
+
+        if (input == null || input == ""){
+            return null;
+        } else {
+            Map<Character, Integer> ft = new HashMap<>(); // creating HashMap for Table
+            if (input.length() > 0){ // checking length of passed argument to see if greater than zero
+                for (int c=0; c < input.length(); c++){ // loop through each character
+                    if (ft.get(input.charAt(c)) == null){ 
+                        ft.put(input.charAt(c), 1);
+                    } else {
+                        // int keyValue = ft.get(input.charAt(c));
+                        ft.put(input.charAt(c), ft.get(input.charAt(c)) + 1);
+                        // keyValue = 2;
+                    }
+                }
+            } else {
+                for (int c=0; c < input.length(); c++){
+                    char character = input.charAt(c);
+                    ft.put(character, 1);
+                }
+            }
+            
+            return ft; // returning Map Data Type from variable ft
+        }
     }
 
     /**
