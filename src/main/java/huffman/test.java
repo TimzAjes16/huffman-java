@@ -1,6 +1,7 @@
 package huffman;
 
 import huffman.tree.Leaf;
+import huffman.tree.Node;
 
 public class test {
     public static void main(String[] args) {
@@ -16,5 +17,15 @@ public class test {
 
         Huffman.freqTable("");
         Huffman.freqTable("hello");
+
+        // Huffman.treeFromFreqTable(Huffman.freqTable("a"));
+        // Node t = Huffman.treeFromFreqTable(Huffman.freqTable("a"));
+        Node t = Huffman.treeFromFreqTable(Huffman.freqTable("aaaabaac"));
+        t.getFreq();
+
+
+
+
+
     }
 }

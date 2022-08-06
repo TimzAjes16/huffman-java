@@ -1,8 +1,13 @@
 package huffman;
 
+import huffman.tree.Branch;
+import huffman.tree.Leaf;
 import huffman.tree.Node;
 
 import java.util.*;
+import java.lang.Math.*;
+
+
 /**
  * The class implementing the Huffman coding algorithm.
  */
@@ -18,9 +23,9 @@ public class Huffman {
     public static Map<Character, Integer> freqTable (String input) {
         // throw new UnsupportedOperationException("Method not implemented");
 
-        if (input == null || input == ""){
+        if (input == null || input == ""){ // checking if 'string' entered is equal to null or empty 
             return null;
-        } else {
+        } else { // condition above is not met so run this code
             Map<Character, Integer> ft = new HashMap<>(); // creating HashMap for Table
             if (input.length() > 0){ // checking length of passed argument to see if greater than zero
                 for (int c=0; c < input.length(); c++){ // loop through each character
@@ -60,7 +65,107 @@ public class Huffman {
      * @return          A Huffman tree.
      */
     public static Node treeFromFreqTable(Map<Character, Integer> freqTable) {
-        throw new UnsupportedOperationException("Method not implemented");
+        // throw new UnsupportedOperationException("Method not implemented");
+
+        PQueue newPriorityPQueue = new PQueue();
+        
+
+        if (freqTable == null){
+            return null;
+        } else {
+            for (Character c: freqTable.keySet()){
+                int valueOfKeySet = freqTable.get(c);
+                Boolean addedToPQ = false;
+                for (int i=0; i < valueOfKeySet; i++){
+                    if (addedToPQ == false){
+                        Leaf createdLeafNode = new Leaf(c, valueOfKeySet);
+                        newPriorityPQueue.enqueue(createdLeafNode);
+                        addedToPQ = true;
+                    } else {
+                        continue;
+                    }
+                    
+                }
+            }
+        }
+        
+        
+        // System.out.println(newPriorityPQueue.getClass().toString());
+        // return ((Node) newPriorityPQueue).get(0);
+
+        Node viewPQ = newPriorityPQueue.getQueue().get(0);
+
+        System.out.println(newPriorityPQueue.getQueue());
+
+        Branch newBranch = new Branch(0, new Leaf('a', 0), new Leaf('b', 0)); // global variable created for branch data type
+
+
+        for (int i=0; i < newPriorityPQueue.getQueue().size(); i = i + 2){
+            if (newPriorityPQueue.getQueue().size() - i != 1){ // checking if there is only one node left in queue
+                // System.out.println(((newPriorityPQueue).get(0));
+                int firstFreq = newPriorityPQueue.getQueue().get(i).getFreq();
+                int secFreq = newPriorityPQueue.getQueue().get(i+1).getFreq();
+
+                if (firstFreq > secFreq){
+                    int maxValue = firstFreq;
+                    int minValue = secFreq;
+
+                    newBranch = new Branch(firstFreq + secFreq, newPriorityPQueue.getQueue().get(i+1), newPriorityPQueue.getQueue().get(i));
+                    newPriorityPQueue.dequeue();
+                    newPriorityPQueue.dequeue();
+                    newPriorityPQueue.enqueue(newBranch);
+                    i = -2;
+
+
+                } else if (firstFreq < secFreq){
+                    int minValue = firstFreq;
+                    int maxValue = secFreq;
+
+                    newBranch = new Branch(firstFreq + secFreq, newPriorityPQueue.getQueue().get(i), newPriorityPQueue.getQueue().get(i+1));
+                    newPriorityPQueue.dequeue();
+                    newPriorityPQueue.dequeue();
+                    newPriorityPQueue.enqueue(newBranch);
+                    i = -2;
+
+
+                } else {
+                    int minValue = firstFreq;
+                    int maxValue = secFreq;
+
+                    newBranch = new Branch(firstFreq + secFreq, newPriorityPQueue.getQueue().get(i), newPriorityPQueue.getQueue().get(i+1));
+                    newPriorityPQueue.dequeue();
+                    newPriorityPQueue.dequeue();
+                    newPriorityPQueue.enqueue(newBranch);
+                    i = -2;
+
+
+                }
+
+            } else if (newPriorityPQueue.getQueue().size() == 0){
+                continue;
+            } else {
+                break;
+                
+    
+            }
+
+            // System.out.println(newBranch);
+            // Node hsh = newPriorityPQueue.getQueue().get(0);
+            // return hsh;
+            
+            
+        }
+        // System.out.println(newBranch);
+        Node hsh = newPriorityPQueue.getQueue().get(0);
+        return hsh;
+        
+
+
+        
+
+        
+
+
     }
 
     /**
